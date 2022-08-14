@@ -5,6 +5,7 @@
 #include "ABAnimInstance.h"
 #include "DrawDebugHelpers.h"
 #include "ABWeapon.h"
+#include "ABCharacterStatComponent.h"
 
 // Sets default values
 AABCharacter::AABCharacter()
@@ -72,6 +73,8 @@ AABCharacter::AABCharacter()
 	//	}
 	//	Weapon->SetupAttachment(GetMesh(), WeaponSocket);
 	//}
+
+	CharacterStat = CreateDefaultSubobject<UABCharacterStatComponent>(TEXT("CHARACTERSTAT"));
 }
 
 // Called when the game starts or when spawned

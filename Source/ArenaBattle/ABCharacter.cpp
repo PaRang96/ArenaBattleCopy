@@ -79,14 +79,13 @@ void AABCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	FName WeaponSocket(TEXT("hand_rSocket"));
+	/*FName WeaponSocket(TEXT("hand_rSocket"));
 
 	auto CurrentWeapon = GetWorld()->SpawnActor<AABWeapon>(FVector::ZeroVector, FRotator::ZeroRotator);
 	if (nullptr != CurrentWeapon)
 	{
 		CurrentWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
-	}
-
+	}*/
 }
 
 //void AABCharacter::SetControlMode(int32 ControlMode)
@@ -456,5 +455,23 @@ float AABCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& Da
 	}
 
 	return FinalDamage;
+}
+
+bool AABCharacter::CanSetWeapon()
+{
+	return (nullptr == CurrentWeapon);
+}
+
+void AABCharacter::SetWeapon(AABWeapon* NewWeapon)
+{
+	ABCHECK(nullptr != NewWeapon && nullptr == CurrentWeapon);
+	FName WeaponSocket(TEXT("hand_rSocket"));
+
+	if (nullptr != NewWeapon)
+	{
+		NewWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
+		NewWeapon->SetOwner(this);
+		CurrentWeapon = NewWeapon;
+	}
 }
 

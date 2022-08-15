@@ -6,6 +6,7 @@
 #include "DrawDebugHelpers.h"
 #include "ABWeapon.h"
 #include "ABCharacterStatComponent.h"
+#include "Components/WidgetComponent.h"
 
 // Sets default values
 AABCharacter::AABCharacter()
@@ -75,6 +76,21 @@ AABCharacter::AABCharacter()
 	//}
 
 	CharacterStat = CreateDefaultSubobject<UABCharacterStatComponent>(TEXT("CHARACTERSTAT"));
+
+	// widget
+	HPBarWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("HPBARWIDGET"));
+	HPBarWidget->SetupAttachment(GetMesh());
+
+	HPBarWidget->SetRelativeLocation(FVector(0.0f, 0.0f, 180.0f));
+	HPBarWidget->SetWidgetSpace(EWidgetSpace::Screen);
+	static ConstructorHelpers::FClassFinder<UUserWidget>UI_HUD(TEXT(
+		"WidgetBlueprint'/Game/Book/UI/UI_HPBar.UI_HPBar_C'"));
+
+	if (UI_HUD.Succeeded())
+	{
+		HPBarWidget->SetWidgetClass(UI_HUD.Class);
+		HPBarWidget->SetDrawSize(FVector2D(150.0f, 50.0f));
+	}
 }
 
 // Called when the game starts or when spawned
@@ -235,6 +251,13 @@ void AABCharacter::PostInitializeComponents()
 		});
 
 	ABAnim->OnAttackHitCheck.AddUObject(this, &AABCharacter::AttackCheck);
+
+	CharacterStat->OnHPIsZero.AddLambda([this]()->void
+		{
+			ABLOG(Warning, TEXT("OnHPIsZero"));
+			ABAnim->SetDeadAnim();
+			SetActorEnableCollision(false);
+		});
 }
 
 void AABCharacter::UpDown(float NewAxisValue)
@@ -440,7 +463,7 @@ void AABCharacter::AttackCheck()
 
 			FDamageEvent DamageEvent;
 
-			HitResult.Actor->TakeDamage(50.0f, DamageEvent, GetController(), this);
+			HitResult.Actor->TakeDamage(CharacterStat->GetAttack(), DamageEvent, GetController(), this);
 		}
 	}
 }
@@ -456,6 +479,8 @@ float AABCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& Da
 		ABAnim->SetDeadAnim();
 		SetActorEnableCollision(false);
 	}
+
+	CharacterStat->SetDamage(FinalDamage);
 
 	return FinalDamage;
 }

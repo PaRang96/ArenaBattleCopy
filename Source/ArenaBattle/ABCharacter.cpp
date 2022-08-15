@@ -7,6 +7,8 @@
 #include "ABWeapon.h"
 #include "ABCharacterStatComponent.h"
 #include "Components/WidgetComponent.h"
+#include "ABCharacterWidget.h"
+#include "ABAIController.h"
 
 // Sets default values
 AABCharacter::AABCharacter()
@@ -91,6 +93,10 @@ AABCharacter::AABCharacter()
 		HPBarWidget->SetWidgetClass(UI_HUD.Class);
 		HPBarWidget->SetDrawSize(FVector2D(150.0f, 50.0f));
 	}
+
+	// ai controller
+	AIControllerClass = AABAIController::StaticClass();
+	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 }
 
 // Called when the game starts or when spawned
@@ -105,6 +111,12 @@ void AABCharacter::BeginPlay()
 	{
 		CurrentWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket);
 	}*/
+
+	auto CharacterWidget = Cast<UABCharacterWidget>(HPBarWidget->GetUserWidgetObject());
+	if (nullptr != CharacterWidget)
+	{
+		CharacterWidget->BindCharacterStat(CharacterStat);
+	}
 }
 
 //void AABCharacter::SetControlMode(int32 ControlMode)

@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "ABCharacter.generated.h"
 
+DECLARE_MULTICAST_DELEGATE(FOnAttackEndDelegate);
+
 UCLASS()
 class ARENABATTLE_API AABCharacter : public ACharacter
 {
@@ -60,9 +62,11 @@ private:
 	void LeftRight(float NewAxisValue);
 	void LookUp(float NewAxisValue);
 	void Turn(float NewAxisValue);
+	
+	// changed domain from private to public -> can use Attack function for A.I.
+	/*void Attack();*/
 
 	void ViewChange();
-	void Attack();
 
 	UFUNCTION()
 		void OnAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted);
@@ -121,4 +125,10 @@ public:
 
 public:
 	virtual void PossessedBy(AController* NewController) override;
+
+
+	// for attack
+public:
+	void Attack();
+	FOnAttackEndDelegate OnAttackEnd;
 };

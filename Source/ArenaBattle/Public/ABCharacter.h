@@ -131,4 +131,12 @@ public:
 public:
 	void Attack();
 	FOnAttackEndDelegate OnAttackEnd;
+
+	// for default setting using ABGameInstance and use ASyncLoad
+private:
+	void OnAssetLoadCompleted();
+
+private:
+	FSoftObjectPath CharacterAssetToLoad = FSoftObjectPath(nullptr);
+	TSharedPtr<struct FStreamableHandle> AssetStreamingHandle;
 };

@@ -32,7 +32,7 @@ public:
 	// Stats of character
 public:
 	void SetNewLevel(int32 NewLevel);
-	void SetDamage(float NewDaamge);
+	void SetDamage(float NewDamage);
 	void SetHP(float NewHP);
 	float GetAttack();
 	float GetHPRatio();

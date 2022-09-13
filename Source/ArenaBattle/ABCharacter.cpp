@@ -453,7 +453,7 @@ void AABCharacter::AttackCheck()
 		}
 	}*/
 
-	// draw debug capsule
+	// draw debug capsule for attack
 
 	#if ENABLE_DRAW_DEBUG
 
@@ -497,11 +497,12 @@ float AABCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& Da
 	float FinalDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	ABLOG(Warning, TEXT("Actor: %s took Damage : %f"), *GetName(), FinalDamage);
 	
-	if (FinalDamage > 0.0f)
+	// delete -> can interfere damage calculation
+	/*if (FinalDamage > 0.0f)
 	{
 		ABAnim->SetDeadAnim();
 		SetActorEnableCollision(false);
-	}
+	}*/
 
 	CharacterStat->SetDamage(FinalDamage);
 

@@ -96,6 +96,8 @@ AABCharacter::AABCharacter()
 		HPBarWidget->SetDrawSize(FVector2D(150.0f, 50.0f));
 	}
 
+	ABLOG(Warning, TEXT("HPBar widget loading completed"));
+
 	// ai controller
 	AIControllerClass = AABAIController::StaticClass();
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
@@ -114,6 +116,8 @@ AABCharacter::AABCharacter()
 void AABCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	ABLOG(Warning, TEXT("BeginPlay ABCharacter"));
 
 	/*FName WeaponSocket(TEXT("hand_rSocket"));
 
@@ -276,6 +280,8 @@ void AABCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 void AABCharacter::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
+
+	ABLOG(Warning, TEXT("PostInitializeComponents ABCharacter"));
 
 	//auto AnimInstance = Cast<UAnimInstance>(GetMesh()->GetAnimInstance());
 	//ABCHECK(nullptr != AnimInstance);

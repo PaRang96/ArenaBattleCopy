@@ -17,6 +17,9 @@ public:
 	// Sets default values for this character's properties
 	AABCharacter();
 
+	void SetCharacterState(ECharacterState NewState);
+	ECharacterState GetCharacterState() const;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -62,6 +65,8 @@ private:
 	void LeftRight(float NewAxisValue);
 	void LookUp(float NewAxisValue);
 	void Turn(float NewAxisValue);
+
+	int32 AssetIndex = 0;
 	
 	// changed domain from private to public -> can use Attack function for A.I.
 	/*void Attack();*/
@@ -139,4 +144,16 @@ private:
 private:
 	FSoftObjectPath CharacterAssetToLoad = FSoftObjectPath(nullptr);
 	TSharedPtr<struct FStreamableHandle> AssetStreamingHandle;
+
+	UPROPERTY(Transient, VisibleInstanceOnly, BlueprintReadOnly, Category = State, Meta = (AllowPrivateAccess = true))
+		ECharacterState CurrentState;
+
+	UPROPERTY(Transient, VisibleInstanceOnly, BlueprintReadOnly, Category = State, Meta = (AllowPrivateAccess = true))
+		bool bIsPlayer;
+
+	UPROPERTY()
+		class AABAIController* ABAIController;
+
+	UPROPERTY()
+		class AABPlayerController* ABPlayercontroller;
 };

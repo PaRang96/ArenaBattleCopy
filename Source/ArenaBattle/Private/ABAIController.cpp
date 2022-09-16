@@ -16,7 +16,7 @@ AABAIController::AABAIController()
 {
 	//RepeatInterval = 3.0f;
 
-	static ConstructorHelpers::FObjectFinder<UBlackboardData> BBObject (TEXT
+	static ConstructorHelpers::FObjectFinder<UBlackboardData> BBObject(TEXT
 	("BlackboardData'/Game/Book/AI/BB_ABCharacter.BB_ABCharacter'"));
 
 	if (BBObject.Succeeded())
@@ -39,9 +39,31 @@ void AABAIController::OnPossess(APawn* InPawn)
 
 	//GetWorld()->GetTimerManager().SetTimer(RepeatTimerHandle, this, &AABAIController::OnRepeatTimer, RepeatInterval, true);
 
+	// below will be moved to void RunAI()
+
+	//if (UseBlackboard(BBAsset, Blackboard))
+	//{
+	//	Blackboard->SetValueAsVector(HomePosKey, InPawn->GetActorLocation());
+
+	//	if (!RunBehaviorTree(BTAsset))
+	//	{
+	//		ABLOG(Error, TEXT("AIController could not run behavior tree!"));
+	//	}
+	//}
+}
+
+void AABAIController::OnUnPossess()
+{
+	Super::OnUnPossess();
+
+	//GetWorld()->GetTimerManager().ClearTimer(RepeatTimerHandle);
+}
+
+void AABAIController::RunAI()
+{
 	if (UseBlackboard(BBAsset, Blackboard))
 	{
-		Blackboard->SetValueAsVector(HomePosKey, InPawn->GetActorLocation());
+		Blackboard->SetValueAsVector(HomePosKey, GetPawn()->GetActorLocation());
 
 		if (!RunBehaviorTree(BTAsset))
 		{
@@ -50,11 +72,13 @@ void AABAIController::OnPossess(APawn* InPawn)
 	}
 }
 
-void AABAIController::OnUnPossess()
+void AABAIController::StopAI()
 {
-	Super::OnUnPossess();
-
-	//GetWorld()->GetTimerManager().ClearTimer(RepeatTimerHandle);
+	auto BehaviorTreeComponent = Cast<UBehaviorTreeComponent>(BrainComponent);
+	if (nullptr != BehaviorTreeComponent)
+	{
+		BehaviorTreeComponent->StopTree(EBTStopMode::Safe);
+	}
 }
 
 //void AABAIController::OnRepeatTimer()

@@ -156,4 +156,11 @@ private:
 
 	UPROPERTY()
 		class AABPlayerController* ABPlayercontroller;
+
+	// for death
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = State, Meta = (AllowprivateAccess = true))
+		float DeadTimer;
+
+	FTimerHandle DeadTimerHandle = {};
 };

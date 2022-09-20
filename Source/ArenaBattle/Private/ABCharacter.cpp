@@ -13,6 +13,7 @@
 #include "ABGameInstance.h"
 #include "ABPlayerController.h"
 #include "ABPlayerState.h"
+#include "ABHUDWidget.h"
 
 // Sets default values
 AABCharacter::AABCharacter()
@@ -135,6 +136,8 @@ void AABCharacter::SetCharacterState(ECharacterState NewState)
 		if (bIsPlayer)
 		{
 			DisableInput(ABPlayercontroller);
+
+			ABPlayercontroller->GetHUDWidget()->BindCharacterStat(CharacterStat);
 
 			auto ABPlayerState = Cast<AABPlayerState>(GetPlayerState());
 			ABCHECK(nullptr != ABPlayerState);
@@ -423,7 +426,7 @@ void AABCharacter::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 
-	ABLOG(Warning, TEXT("PostInitializeComponents ABCharacter"));
+	//ABLOG(Warning, TEXT("PostInitializeComponents ABCharacter"));
 
 	//auto AnimInstance = Cast<UAnimInstance>(GetMesh()->GetAnimInstance());
 	//ABCHECK(nullptr != AnimInstance);
@@ -597,6 +600,11 @@ void AABCharacter::OnAssetLoadCompleted()
 	SetCharacterState(ECharacterState::READY);
 }
 
+int32 AABCharacter::GetExp() const
+{
+	return CharacterStat->GetDropExp();
+}
+
 void AABCharacter::OnAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted)
 {
 	ABCHECK(IsAttacking);
@@ -696,6 +704,16 @@ float AABCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& Da
 		ABAnim->SetDeadAnim();
 		SetActorEnableCollision(false);
 	}*/
+
+	if (CurrentState == ECharacterState::DEAD)
+	{
+		if (EventInstigator->IsPlayerController())
+		{
+			auto ABPlayerController = Cast<AABPlayerController>(EventInstigator);
+			ABCHECK(nullptr != ABPlayerController, 0.0f);
+			ABPlayerController->NPCKill(this);
+		}
+	}
 
 	CharacterStat->SetDamage(FinalDamage);
 

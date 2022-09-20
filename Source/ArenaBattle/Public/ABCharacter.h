@@ -163,4 +163,7 @@ private:
 		float DeadTimer;
 
 	FTimerHandle DeadTimerHandle = {};
+
+public:
+	int32 GetExp() const;
 };

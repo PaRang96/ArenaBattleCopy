@@ -20,4 +20,22 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+
+	// for in-game player widget, showing hp, level, name, etc.
+public:
+	AABPlayerController();
+	
+	class UABHUDWidget* GetHUDWidget() const;
+	void NPCKill(class AABCharacter* KilledNPC) const;
+
+protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = UI)
+	TSubclassOf<class UABHUDWidget> HUDWidgetClass;
+
+private:
+	UPROPERTY()
+	class UABHUDWidget* HUDWidget;
+
+	UPROPERTY()
+	class AABPlayerState* ABPlayerState;
 };

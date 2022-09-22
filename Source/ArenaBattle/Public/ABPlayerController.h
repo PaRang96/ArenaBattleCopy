@@ -38,4 +38,7 @@ private:
 
 	UPROPERTY()
 	class AABPlayerState* ABPlayerState;
+
+public:
+	void AddGameScore() const;
 };

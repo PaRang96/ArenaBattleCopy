@@ -40,10 +40,7 @@ void AABPlayerController::BeginPlay()
 	HUDWidget->AddToViewport();
 
 	ABPlayerState = Cast<AABPlayerState>(PlayerState);
-
-	//auto ABPlayerState = Cast<AABPlayerState>(PlayerState);
 	ABCHECK(nullptr != ABPlayerState);
-
 	HUDWidget->BindPlayerState(ABPlayerState);
 	ABPlayerState->OnPlayerStateChanged.Broadcast();
 }
@@ -56,4 +53,9 @@ UABHUDWidget* AABPlayerController::GetHUDWidget() const
 void AABPlayerController::NPCKill(AABCharacter* KilledNPC) const
 {
 	ABPlayerState->AddExp(KilledNPC->GetExp());
+}
+
+void AABPlayerController::AddGameScore() const
+{
+	ABPlayerState->AddGameScore();
 }

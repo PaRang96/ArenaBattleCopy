@@ -68,4 +68,7 @@ private:
 
 	FTimerHandle SpawnNPCTimerHandle = {};
 	FTimerHandle SpawnItemBoxTimerHandle = {};
+
+	UFUNCTION()
+	void OnKeyNPCDestroyed(AActor* DestroyedActor);
 };

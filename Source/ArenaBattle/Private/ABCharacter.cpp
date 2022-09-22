@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "ABCharacter.h"
 #include "ABAnimInstance.h"
 #include "DrawDebugHelpers.h"
@@ -709,9 +708,10 @@ float AABCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& Da
 	{
 		if (EventInstigator->IsPlayerController())
 		{
-			auto ABPlayerController = Cast<AABPlayerController>(EventInstigator);
-			ABCHECK(nullptr != ABPlayerController, 0.0f);
-			ABPlayerController->NPCKill(this);
+			ABLOG(Warning, TEXT("Dead Character"));
+			auto instigator = Cast<AABPlayerController>(EventInstigator);
+			ABCHECK(nullptr != instigator, 0.0f);
+			instigator->NPCKill(this);
 		}
 	}
 

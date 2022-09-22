@@ -34,7 +34,7 @@ void UABHUDWidget::NativeConstruct()
 	PlayerName = Cast<UTextBlock>(GetWidgetFromName(TEXT("txtPlayerName")));
 	ABCHECK(nullptr != PlayerName);
 
-	PlayerLevel = Cast<UTextBlock>(GetWidgetFromName(TEXT("txtPlayerLevel")));
+	PlayerLevel = Cast<UTextBlock>(GetWidgetFromName(TEXT("txtLevel")));
 	ABCHECK(nullptr != PlayerLevel);
 
 	CurrentScore = Cast<UTextBlock>(GetWidgetFromName(TEXT("txtCurrentScore")));

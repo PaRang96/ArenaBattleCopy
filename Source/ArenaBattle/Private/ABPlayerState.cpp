@@ -38,7 +38,7 @@ float AABPlayerState::GetExpRatio() const
 
     float Result = (float)Exp / (float)CurrentStatData->NextExp;
 
-    ABLOG(Warning, TEXT("Ratio: %f, Current: %d"), Result, Exp, CurrentStatData->NextExp);
+    ABLOG(Warning, TEXT("Ratio: %f, Current: %d, Next: %d"), Result, Exp, CurrentStatData->NextExp);
     return Result;
 }
 
@@ -63,6 +63,12 @@ bool AABPlayerState::AddExp(int32 IncomeExp)
     OnPlayerStateChanged.Broadcast();
 
     return DidLevelUp;
+}
+
+void AABPlayerState::AddGameScore()
+{
+    GameScore++;
+    OnPlayerStateChanged.Broadcast();
 }
 
 void AABPlayerState::SetCharacterLevel(int32 NewCharacterLevel)

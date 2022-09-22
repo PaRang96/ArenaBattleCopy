@@ -24,6 +24,8 @@ public:
 	float GetExpRatio() const;
 	bool AddExp(int32 IncomeExp);
 
+	void AddGameScore();
+
 	void InitPlayerData();
 
 	FOnPlayerStateChangedDelegate OnPlayerStateChanged;

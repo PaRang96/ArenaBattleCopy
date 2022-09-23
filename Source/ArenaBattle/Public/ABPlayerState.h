@@ -27,6 +27,7 @@ public:
 	void AddGameScore();
 
 	void InitPlayerData();
+	void SavePlayerData();
 
 	FOnPlayerStateChangedDelegate OnPlayerStateChanged;
 
@@ -43,4 +44,13 @@ protected:
 private:
 	void SetCharacterLevel(int32 NewCharacterLevel);
 	struct FABCharacterData* CurrentStatData;
+
+public:
+	// Save Game
+	int32 GetGameHighScore() const;
+	FString SaveSlotName;
+
+protected:
+	UPROPERTY(Transient)
+	int32 GameHighScore;
 };

@@ -166,4 +166,6 @@ private:
 
 public:
 	int32 GetExp() const;
+	float GetFinalAttackRange() const;
+	float GetFinalAttackDamage() const;
 };

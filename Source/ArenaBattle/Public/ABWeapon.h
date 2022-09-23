@@ -27,4 +27,30 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = Weapon)
 	USkeletalMeshComponent* Weapon;
 
+public:
+	float GetAttackRange() const;
+	float GetAttackDamage() const;
+	float GetAttackModifier() const;
+
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attack)
+	float AttackRange;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attack)
+	float AttackDamageMin;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attack)
+	float AttackDamageMax;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attack)
+	float AttackModifierMin;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attack)
+	float AttackModifierMax;
+
+	UPROPERTY(Transient, VisibleInstanceOnly, BlueprintReadOnly, Category = Attack)
+	float AttackModifier;
+
+	UPROPERTY(Transient, VisibleInstanceOnly, BlueprintReadOnly, Category = Attack)
+	float AttackDamage;
 };

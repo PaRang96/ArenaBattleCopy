@@ -23,6 +23,8 @@ public:
 
 	void AddScore(class AABPlayerController* ScoredPlayer);
 
+	int32 GetScore() const;
+
 private:
 	UPROPERTY()
 	class AABGameState* ABGameState;
